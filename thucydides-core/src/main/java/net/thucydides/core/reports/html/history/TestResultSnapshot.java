@@ -1,5 +1,7 @@
 package net.thucydides.core.reports.html.history;
 
+import net.thucydides.core.Thucydides;
+import net.thucydides.core.ThucydidesSystemProperty;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -18,7 +20,7 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
     private int failingSteps;
     private int skippedSteps;
     private String buildId;
-    private String projectName;
+    private String projectKey;
 
     public TestResultSnapshot(final DateTime time,
                               final int specifiedSteps,
@@ -26,12 +28,8 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
                               final int failingSteps,
                               final int skippedSteps,
                               final String buildId) {
-        this.time = time;
-        this.specifiedSteps = specifiedSteps;
-        this.passingSteps = passingSteps;
-        this.failingSteps = failingSteps;
-        this.skippedSteps = skippedSteps;
-        this.buildId = buildId;
+
+        this(time,specifiedSteps,passingSteps,failingSteps,skippedSteps,buildId, "project");
     }
 
     public TestResultSnapshot(final int specifiedSteps,
@@ -40,6 +38,32 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
                               final int skippedSteps,
                               final String buildId) {
         this(DateTime.now(),specifiedSteps,passingSteps,failingSteps,skippedSteps,buildId);
+    }
+
+    public TestResultSnapshot(final int specifiedSteps,
+                              final int passingSteps,
+                              final int failingSteps,
+                              final int skippedSteps,
+                              final String buildId,
+                              final String projectKey) {
+        this(DateTime.now(),specifiedSteps,passingSteps,failingSteps,skippedSteps,buildId, projectKey);
+
+    }
+
+    public TestResultSnapshot(final DateTime time,
+                              final int specifiedSteps,
+                              final int passingSteps,
+                              final int failingSteps,
+                              final int skippedSteps,
+                              final String buildId,
+                              final String projectKey) {
+        this.time = time;
+        this.specifiedSteps = specifiedSteps;
+        this.passingSteps = passingSteps;
+        this.failingSteps = failingSteps;
+        this.skippedSteps = skippedSteps;
+        this.buildId = buildId;
+        this.projectKey = projectKey;
     }
 
     public DateTime getTime() {
@@ -64,34 +88,6 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
 
     public String getBuildId() {
         return buildId;
-    }
-
-    public void setTime(DateTime time) {
-        this.time = time;
-    }
-
-    public void setSpecifiedSteps(int specifiedSteps) {
-        this.specifiedSteps = specifiedSteps;
-    }
-
-    public void setPassingSteps(int passingSteps) {
-        this.passingSteps = passingSteps;
-    }
-
-    public void setFailingSteps(int failingSteps) {
-        this.failingSteps = failingSteps;
-    }
-
-    public void setSkippedSteps(int skippedSteps) {
-        this.skippedSteps = skippedSteps;
-    }
-
-    public void setBuildId(String buildId) {
-        this.buildId = buildId;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     public int compareTo(TestResultSnapshot other) {
