@@ -2,14 +2,23 @@ package net.thucydides.core.reports.html.history;
 
 import org.joda.time.DateTime;
 
+import javax.persistence.*;
+
+@Entity
 public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
 
-    private final DateTime time;
-    private final int specifiedSteps;
-    private final int passingSteps;
-    private final int failingSteps;
-    private final int skippedSteps;
-    private final String buildId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "test_result_snapshot_seq")
+    @SequenceGenerator(name="test_result_snapshot_seq",sequenceName="SNAPSHOT_SEQUENCE", allocationSize=1)
+    private Long id;
+
+    private DateTime time;
+    private int specifiedSteps;
+    private int passingSteps;
+    private int failingSteps;
+    private int skippedSteps;
+    private String buildId;
+    private String projectName;
 
     public TestResultSnapshot(final DateTime time,
                               final int specifiedSteps,
@@ -55,6 +64,34 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
 
     public String getBuildId() {
         return buildId;
+    }
+
+    public void setTime(DateTime time) {
+        this.time = time;
+    }
+
+    public void setSpecifiedSteps(int specifiedSteps) {
+        this.specifiedSteps = specifiedSteps;
+    }
+
+    public void setPassingSteps(int passingSteps) {
+        this.passingSteps = passingSteps;
+    }
+
+    public void setFailingSteps(int failingSteps) {
+        this.failingSteps = failingSteps;
+    }
+
+    public void setSkippedSteps(int skippedSteps) {
+        this.skippedSteps = skippedSteps;
+    }
+
+    public void setBuildId(String buildId) {
+        this.buildId = buildId;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public int compareTo(TestResultSnapshot other) {
