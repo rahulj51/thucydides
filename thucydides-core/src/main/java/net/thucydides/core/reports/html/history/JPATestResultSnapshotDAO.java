@@ -28,6 +28,7 @@ public class JPATestResultSnapshotDAO implements TestResultSnapshotDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JPATestResultSnapshotDAO.class);
     private static final String FIND_ALL_TEST_RESULT_SNAPSHOTS = "select t from TestResultSnapshot t where t.projectKey = :projectKey order by t.time";
+    private static final String CLEAR_ALL_TEST_RESULT_SNAPSHOTS = "delete from TestResultSnapshot t where t.projectKey = :projectKey";
 
 
     @Inject
@@ -45,8 +46,9 @@ public class JPATestResultSnapshotDAO implements TestResultSnapshotDAO {
       try {
           entityManager.persist(testResultSnapshot);
           entityManager.getTransaction().commit();
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
           entityManager.getTransaction().rollback();
+          throw e;
       } finally {
           entityManager.close();
       }                  
@@ -63,6 +65,23 @@ public class JPATestResultSnapshotDAO implements TestResultSnapshotDAO {
             entityManager.close();
         }
 
+    }
+
+    @Override
+    public void clearAll() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        try {
+            entityManager.createQuery(CLEAR_ALL_TEST_RESULT_SNAPSHOTS)
+                    .setParameter("projectKey", getProjectKey())
+                    .executeUpdate();
+            entityManager.getTransaction().commit();
+        }catch (RuntimeException e) {
+            entityManager.getTransaction().rollback();
+            throw e;
+        } finally {
+            entityManager.close();
+        }
     }
 
     private String getProjectKey() {

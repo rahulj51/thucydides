@@ -13,4 +13,6 @@ public interface TestResultSnapshotDAO {
     void saveSnapshot(TestResultSnapshot testResultSnapshot);
 
     List<TestResultSnapshot> findAll();
+
+    void clearAll();
 }
