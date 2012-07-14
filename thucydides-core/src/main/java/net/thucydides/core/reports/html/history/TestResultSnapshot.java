@@ -22,6 +22,8 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
     private String buildId;
     private String projectKey;
 
+    public TestResultSnapshot() {}
+
     public TestResultSnapshot(final DateTime time,
                               final int specifiedSteps,
                               final int passingSteps,
