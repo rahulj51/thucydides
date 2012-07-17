@@ -65,7 +65,9 @@ public class TestHistoryAsDB {
 
     public List<TestResultSnapshot> getHistory() {
 
-        return testResultSnapshotDAO.findAll();
+        List<TestResultSnapshot> listOfSnapShots =  testResultSnapshotDAO.findAll();
+        Collections.sort(listOfSnapShots);
+        return listOfSnapShots;
 
     }
 

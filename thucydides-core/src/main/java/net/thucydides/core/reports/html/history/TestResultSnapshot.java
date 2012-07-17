@@ -99,4 +99,19 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
             return this.getTime().compareTo(other.getTime());
         }
     }
+
+
+    @Override
+    public String toString() {
+        return "TestResultSnapshot{" +
+                "id=" + id +
+                ", time=" + time +
+                ", specifiedSteps=" + specifiedSteps +
+                ", passingSteps=" + passingSteps +
+                ", failingSteps=" + failingSteps +
+                ", skippedSteps=" + skippedSteps +
+                ", buildId='" + buildId + '\'' +
+                ", projectKey='" + projectKey + '\'' +
+                '}';
+    }
 }

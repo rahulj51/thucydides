@@ -10,7 +10,7 @@ import net.thucydides.core.model.TestTag;
 import net.thucydides.core.reports.TestOutcomeLoader;
 import net.thucydides.core.reports.TestOutcomes;
 import net.thucydides.core.reports.UserStoryTestReporter;
-import net.thucydides.core.reports.history.TestHistory;
+import net.thucydides.core.reports.history.TestHistoryAsDB;
 import net.thucydides.core.reports.html.history.TestResultSnapshot;
 import net.thucydides.core.reports.json.JSONProgressResultTree;
 import net.thucydides.core.reports.json.JSONResultTree;
@@ -39,7 +39,7 @@ public class HtmlAggregateStoryReporter extends HtmlReporter implements UserStor
     private static final String TEST_OUTCOME_TEMPLATE_PATH = "freemarker/home.ftl";
     private static final String TAGTYPE_TEMPLATE_PATH = "freemarker/results-by-tagtype.ftl";
 
-    private TestHistory testHistory;
+    private TestHistoryAsDB testHistory;
     private String projectName;
     private ReportNameProvider reportNameProvider;
 
@@ -59,9 +59,9 @@ public class HtmlAggregateStoryReporter extends HtmlReporter implements UserStor
         return projectName;
     }
 
-    protected TestHistory getTestHistory() {
+    protected TestHistoryAsDB getTestHistory() {
         if (testHistory == null) {
-            testHistory = new TestHistory(getProjectName());
+            testHistory = new TestHistoryAsDB();
         }
         return testHistory;
     }
