@@ -31,12 +31,9 @@ import net.thucydides.core.webdriver.Configuration;
 import net.thucydides.core.webdriver.SystemPropertiesConfiguration;
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.mockito.MockitoAnnotations;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +42,7 @@ import static org.junit.Assert.assertThat;
 
 public class WhenTrackingTestResultsOverTimeUsingDB {
 
-    private TestHistoryAsDB testHistory;
+    private TestHistoryInDatabase testHistory;
 
     Injector injector;
     ThucydidesModuleWithMockEnvironmentVariables guiceModule;
@@ -77,7 +74,7 @@ public class WhenTrackingTestResultsOverTimeUsingDB {
         environmentVariables = injector.getInstance(MockEnvironmentVariables.class);
         TestResultSnapshotDAO testResultSnapshotDAO = injector.getInstance(TestResultSnapshotDAO.class);
 
-        testHistory = new TestHistoryAsDB(environmentVariables, testResultSnapshotDAO);
+        testHistory = new TestHistoryInDatabase(environmentVariables, testResultSnapshotDAO);
         testHistory.clearHistory();
 
     }
