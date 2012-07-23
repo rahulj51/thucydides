@@ -2,6 +2,9 @@ package net.thucydides.core.reports.html.history;
 
 import net.thucydides.core.Thucydides;
 import net.thucydides.core.ThucydidesSystemProperty;
+import org.eclipse.persistence.annotations.Convert;
+import org.eclipse.persistence.annotations.Converter;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -14,7 +17,12 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
     @SequenceGenerator(name="test_result_snapshot_seq",sequenceName="SNAPSHOT_SEQUENCE", allocationSize=1)
     private Long id;
 
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @Column(columnDefinition = "TIMESTAMP")
+    @Converter(name = "dateTimeConverter", converterClass = net.thucydides.core.jpa.EclipselinkDateTimeConverter.class )
+    @Convert("dateTimeConverter")
     private DateTime time;
+
     private int specifiedSteps;
     private int passingSteps;
     private int failingSteps;
