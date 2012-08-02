@@ -18,7 +18,7 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
     private Long id;
 
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @Column(columnDefinition = "TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP", nullable=false)
     @Converter(name = "dateTimeConverter", converterClass = net.thucydides.core.jpa.EclipselinkDateTimeConverter.class )
     @Convert("dateTimeConverter")
     private DateTime time;
