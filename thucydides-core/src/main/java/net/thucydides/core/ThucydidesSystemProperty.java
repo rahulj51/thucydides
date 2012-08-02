@@ -72,10 +72,11 @@ public enum ThucydidesSystemProperty {
 
     /**
      * Should Thucydides take screenshots for every clicked button and every selected link?
-     * If this option is set to true (the default value), Thucydides will record screenshots for any action performed
+     * By default, a screenshot will be stored at the start and end of each step.
+     * If this option is set to true, Thucydides will record screenshots for any action performed
      * on a WebElementFacade, i.e. any time you use an expression like element(...).click(),
      * findBy(...).click() and so on.
-     * This will be overridden if the ONLY_SAVE_FAILING_SCREENSHOTS option is activated.
+     * This will be overridden if the ONLY_SAVE_FAILING_SCREENSHOTS option is set to true.
      */
     VERBOSE_SCREENSHOTS("thucydides.verbose.screenshots"),
 
@@ -258,18 +259,33 @@ public enum ThucydidesSystemProperty {
     /**
      * The root package for the tests in a given project.
      * If provided, Thucydides will log information about the total number of tests to be executed,
-     * and keep a tally of the executed tests.
+     * and keep a tally of the executed tests. It will also use this as the root package when determining the
+     * capabilities associated with a test.
      */
     TEST_ROOT_PACKAGE("thucydides.test.root"),
 
     /**
      * The jpa provider to use. Defaults to hibernate but can have values defined by JpaProvider enum
      */
-    JPA_PROVIDER("thucydides.jpa.provider");
+    JPA_PROVIDER("thucydides.jpa.provider"),
+
+    /**
+     * The hierarchy of capability types.
+     * This is the list of capability types to be used when reading capabilities from the file system
+     * and when organizing the reports. It is a comma-separated list of tags.The default value is: capability, feature
+     */
+    CAPABILITY_TYPES("thucydides.capability.types"),
+
+    /**
+     * The hierarchy of capability types.
+     * This is the list of capability types to be used when reading capabilities from the file system
+     * and when organizing the reports. It is a comma-separated list of tags.The default value is: capability, feature
+     */
+    DATA_DIRECTORY("thucydides.data.dir");
 
     private String propertyName;
-    public static final int DEFAULT_HEIGHT = 1000;
-    public static final int DEFAULT_WIDTH = 800;
+    public static final int DEFAULT_HEIGHT = 700;
+    public static final int DEFAULT_WIDTH = 960;
 
     private ThucydidesSystemProperty(final String propertyName) {
         this.propertyName = propertyName;
