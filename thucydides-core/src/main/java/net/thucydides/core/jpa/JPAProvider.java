@@ -11,7 +11,7 @@ public enum JPAProvider {
 
     Hibernate ("db-manager"),
     EclipseLink("db-manager-EclipseLink"),
-    OpenJPA("db-manager-OpenJPA");
+    DataNucleus("db-manager-DataNucleus");
 
     private String persistenceUnit;
 

@@ -40,7 +40,7 @@ public class JPAProviderConfigFactory {
                                                           LocalDatabase localDatabase) {
         switch (provider) {
             case EclipseLink: return new EclipseLinkEnvironmentVariablesConfig(environmentVariables, localDatabase);
-            case OpenJPA: return new OpenJPAEnvironmentVariablesConfig(environmentVariables, localDatabase);
+            case DataNucleus: return new DataNucleusEnvironmentVariablesConfig(environmentVariables, localDatabase);
 
             default: return new HibernateEnvironmentVariablesConfig(environmentVariables,localDatabase);
         }

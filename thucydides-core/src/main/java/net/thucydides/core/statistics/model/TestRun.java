@@ -4,6 +4,7 @@ import net.thucydides.core.model.TestOutcome;
 import net.thucydides.core.model.TestResult;
 import org.hibernate.annotations.Immutable;
 
+import javax.jdo.annotations.PersistenceCapable;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Entity
 @Immutable
+@PersistenceCapable
 public class TestRun {
 
     @Id

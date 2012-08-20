@@ -15,4 +15,5 @@ public interface LocalDatabase {
     String getDialect();
     String getDBPlatform();
     String getDBDictionary();
+    String getDataNucleusDBAdapterName();
 }

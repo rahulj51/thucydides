@@ -61,6 +61,11 @@ public class LocalH2ServerDatabase implements LocalDatabase {
         return "org.apache.openjpa.jdbc.sql.H2Dictionary"  ;
     }
 
+    @Override
+    public String getDataNucleusDBAdapterName() {
+        return "org.datanucleus.store.rdbms.adapter.H2Adapter";
+    }
+
     public String getDatabaseName() {
         String projectKey = ThucydidesSystemProperty.PROJECT_KEY.from(environmentVariables, Thucydides.getDefaultProjectKey());
         return StringUtils.join(ImmutableList.of("stats", projectKey), "-");

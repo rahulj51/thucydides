@@ -44,7 +44,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 
-public class WhenRecordingTestResultStatisticsWithOpenJPA {
+public class WhenRecordingTestResultStatisticsWithDataNucleus {
 
     Injector injector;
     EnvironmentVariables environmentVariables;
@@ -102,9 +102,9 @@ public class WhenRecordingTestResultStatisticsWithOpenJPA {
         guiceModule = new ThucydidesModuleWithMockEnvironmentVariables();
         injector = Guice.createInjector(guiceModule);
         environmentVariables = injector.getInstance(EnvironmentVariables.class);
-        environmentVariables.setProperty("thucydides.statistics.url", "jdbc:hsqldb:mem:testDatabase-openJPA");
+        environmentVariables.setProperty("thucydides.statistics.url", "jdbc:hsqldb:mem:testDatabase-DataNucleus");
         environmentVariables.setProperty("thucydides.record.statistics", "true");
-        environmentVariables.setProperty("thucydides.jpa.provider","OpenJPA");
+        environmentVariables.setProperty("thucydides.jpa.provider","DataNucleus");
 
         testOutcomeHistoryDAO = injector.getInstance(JPATestOutcomeHistoryDAO.class);
         statisticsListener = new StatisticsListener(testOutcomeHistoryDAO, environmentVariables, databaseConfig);
@@ -144,7 +144,7 @@ public class WhenRecordingTestResultStatisticsWithOpenJPA {
         ThucydidesModuleWithMockEnvironmentVariables guiceModule = new ThucydidesModuleWithMockEnvironmentVariables();
         Injector injector = Guice.createInjector(guiceModule);
         EnvironmentVariables environmentVariables = injector.getInstance(EnvironmentVariables.class);
-        environmentVariables.setProperty("thucydides.statistics.url", "jdbc:hsqldb:mem:defaultTestDatabase-openJPA");
+        environmentVariables.setProperty("thucydides.statistics.url", "jdbc:hsqldb:mem:defaultTestDatabase-DataNucleus");
 
         TestOutcomeHistoryDAO testOutcomeHistoryDAO = injector.getInstance(JPATestOutcomeHistoryDAO.class);
         StatisticsListener statisticsListener = new StatisticsListener(testOutcomeHistoryDAO, environmentVariables, databaseConfig);
@@ -169,7 +169,7 @@ public class WhenRecordingTestResultStatisticsWithOpenJPA {
         ThucydidesModuleWithMockEnvironmentVariables guiceModule = new ThucydidesModuleWithMockEnvironmentVariables();
         Injector injector = Guice.createInjector(guiceModule);
         EnvironmentVariables environmentVariables = injector.getInstance(EnvironmentVariables.class);
-        environmentVariables.setProperty("thucydides.statistics.url", "jdbc:hsqldb:mem:defaultTestDatabase-openJPA");
+        environmentVariables.setProperty("thucydides.statistics.url", "jdbc:hsqldb:mem:defaultTestDatabase-DataNucleus");
         environmentVariables.setProperty("thucydides.record.statistics", "false");
 
         TestOutcomeHistoryDAO testOutcomeHistoryDAO = injector.getInstance(JPATestOutcomeHistoryDAO.class);

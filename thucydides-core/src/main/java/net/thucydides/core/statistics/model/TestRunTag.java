@@ -2,12 +2,14 @@ package net.thucydides.core.statistics.model;
 
 import org.hibernate.annotations.Immutable;
 
+import javax.jdo.annotations.PersistenceCapable;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Immutable
+@PersistenceCapable
 public class TestRunTag {
 
     @Id

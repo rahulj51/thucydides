@@ -245,12 +245,40 @@
             <version>2.4.0</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.openjpa</groupId>
-            <artifactId>openjpa-all</artifactId>
-            <version>2.2.0</version>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-accessplatform-jpa-rdbms</artifactId>
+            <version>3.1.0-release</version>
+            <type>pom</type>
         </dependency>
-
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-accessplatform-jdo-rdbms</artifactId>
+            <version>3.1.0-release</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>maven-datanucleus-plugin</artifactId>
+                <version>3.1.0-release</version>
+                <configuration>
+                    <log4jConfiguration>${basedir}/log4j.properties</log4jConfiguration>
+                    <verbose>true</verbose>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <repositories>
         <repository>
             <id>EclipseLink Repo</id>

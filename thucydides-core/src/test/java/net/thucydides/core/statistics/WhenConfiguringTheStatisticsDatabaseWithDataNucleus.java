@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
-public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
+public class WhenConfiguringTheStatisticsDatabaseWithDataNucleus {
 
     EnvironmentVariables environmentVariables;
     EnvironmentVariablesDatabaseConfig databaseConfig;
@@ -32,7 +32,7 @@ public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
     @Before
     public void initMocks() {
         environmentVariables = new MockEnvironmentVariables();
-        environmentVariables.setProperty(ThucydidesSystemProperty.JPA_PROVIDER.getPropertyName(), JPAProvider.OpenJPA.name());
+        environmentVariables.setProperty(ThucydidesSystemProperty.JPA_PROVIDER.getPropertyName(), JPAProvider.DataNucleus.name());
         localDatabase = new LocalH2ServerDatabase(environmentVariables);
         databaseConfig = new EnvironmentVariablesDatabaseConfig(environmentVariables, localDatabase);
     }
@@ -41,7 +41,7 @@ public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
     public void should_define_an_h2_database_by_default() {
         Properties properties = databaseConfig.getProperties();
 
-        assertThat(properties.getProperty("javax.persistence.jdbc.driver"), is("org.h2.Driver"));
+        assertThat(properties.getProperty("datanucleus.ConnectionDriverName"), is("org.h2.Driver"));
     }
 
 
@@ -49,8 +49,8 @@ public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
     public void should_define_a_local_hsqldb_database_by_default() {
         Properties properties = databaseConfig.getProperties();
 
-        assertThat(properties.getProperty("javax.persistence.jdbc.url"), containsString("jdbc:"));
-        assertThat(properties.getProperty("javax.persistence.jdbc.url"), containsString("stats-thucydides"));
+        assertThat(properties.getProperty("datanucleus.ConnectionURL"), containsString("jdbc:"));
+        assertThat(properties.getProperty("datanucleus.ConnectionURL"), containsString("stats-thucydides"));
     }
 
     @Test
@@ -58,8 +58,8 @@ public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
         environmentVariables.setProperty("thucydides.project.key","myproject");
         Properties properties = databaseConfig.getProperties();
 
-        assertThat(properties.getProperty("javax.persistence.jdbc.url"), containsString("jdbc:"));
-        assertThat(properties.getProperty("javax.persistence.jdbc.url"), containsString("stats-myproject"));
+        assertThat(properties.getProperty("datanucleus.ConnectionURL"), containsString("jdbc:"));
+        assertThat(properties.getProperty("datanucleus.ConnectionURL"), containsString("stats-myproject"));
     }
 
     @Test
@@ -67,15 +67,15 @@ public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
         environmentVariables.setProperty("thucydides.project.key","myproject");
         Properties properties = databaseConfig.getProperties();
 
-        assertThat(properties.getProperty("javax.persistence.jdbc.url"), containsString("jdbc:"));
-        assertThat(properties.getProperty("javax.persistence.jdbc.url"), containsString("stats-myproject"));
+        assertThat(properties.getProperty("datanucleus.ConnectionURL"), containsString("jdbc:"));
+        assertThat(properties.getProperty("datanucleus.ConnectionURL"), containsString("stats-myproject"));
     }
 
     @Test
     public void should_update_the_default_local_database_automatically() {
         Properties properties = databaseConfig.getProperties();
 
-        assertThat(properties.getProperty("openjpa.jdbc.SynchronizeMappings"), is("buildSchema"));
+        assertThat(properties.getProperty("datanucleus.autoCreateSchema"), is("true"));
     }
 
     @Test
@@ -89,8 +89,10 @@ public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
 
         Properties properties = databaseConfig.getProperties();
 
-        assertThat(properties.getProperty("openjpa.jdbc.SynchronizeMappings"), is("validate"));
-
+        assertThat(properties.getProperty("datanucleus.autoCreateSchema"), is("false"));
+        assertThat(properties.getProperty("datanucleus.validateTables"), is("true"));
+        assertThat(properties.getProperty("datanucleus.validateColumns"), is("true"));
+        assertThat(properties.getProperty("datanucleus.validateConstraints"), is("true"));
     }
 
     @Rule
@@ -106,7 +108,7 @@ public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
 
         Properties properties = databaseConfig.getProperties();
 
-        assertThat(properties.getProperty("openjpa.jdbc.SynchronizeMappings"), is("buildSchema"));
+        assertThat(properties.getProperty("datanucleus.autoCreateSchema"), is("true"));
     }
 
     @Test
@@ -116,15 +118,15 @@ public class WhenConfiguringTheStatisticsDatabaseWithOpenJPA {
         environmentVariables.setProperty("thucydides.statistics.url","jdbc:postgresql:dbserver/stats");
         environmentVariables.setProperty("thucydides.statistics.username","admin");
         environmentVariables.setProperty("thucydides.statistics.password","password");
-        environmentVariables.setProperty("thucydides.statistics.dialect","org.apache.openjpa.jdbc.sql.PostgresDictionary");
+        environmentVariables.setProperty("thucydides.statistics.dialect","org.datanucleus.store.rdbms.adapter.PostgreSQLAdapter");
 
         Properties properties = databaseConfig.getProperties();
 
-        assertThat(properties.getProperty("javax.persistence.jdbc.driver"), is("org.postgresql.Driver"));
-        assertThat(properties.getProperty("javax.persistence.jdbc.url"), is("jdbc:postgresql:dbserver/stats"));
-        assertThat(properties.getProperty("javax.persistence.jdbc.user"), is("admin"));
-        assertThat(properties.getProperty("javax.persistence.jdbc.password"), is("password"));
-        assertThat(properties.getProperty("openjpa.jdbc.DBDictionary"), is("org.apache.openjpa.jdbc.sql.PostgresDictionary"));
+        assertThat(properties.getProperty("datanucleus.ConnectionDriverName"), is("org.postgresql.Driver"));
+        assertThat(properties.getProperty("datanucleus.ConnectionURL"), is("jdbc:postgresql:dbserver/stats"));
+        assertThat(properties.getProperty("datanucleus.ConnectionUserName"), is("admin"));
+        assertThat(properties.getProperty("datanucleus.ConnectionPassword"), is("password"));
+        assertThat(properties.getProperty("org.datanucleus.rdbms.datastoreAdapterClassName"), is("org.datanucleus.store.rdbms.adapter.PostgreSQLAdapter"));
     }
 
     private void createEmptyDatabaseFor(String emptyDatabaseUrl) throws SQLException {

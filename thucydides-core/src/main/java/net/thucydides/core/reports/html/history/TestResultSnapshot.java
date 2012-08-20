@@ -2,15 +2,16 @@ package net.thucydides.core.reports.html.history;
 
 import net.thucydides.core.Thucydides;
 import net.thucydides.core.ThucydidesSystemProperty;
-import org.apache.openjpa.persistence.jdbc.Strategy;
 import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.Converter;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import javax.jdo.annotations.PersistenceCapable;
 import javax.persistence.*;
 
 @Entity
+@PersistenceCapable
 public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
 
     @Id
@@ -22,7 +23,6 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
     @Column(columnDefinition = "TIMESTAMP", nullable=false)
     @Converter(name = "dateTimeConverter", converterClass = net.thucydides.core.jpa.EclipselinkDateTimeConverter.class )
     @Convert("dateTimeConverter")
-    @Strategy(value="net.thucydides.core.jpa.OpenJPADateTimeConverter")
     private DateTime time;
 
     private int specifiedSteps;
