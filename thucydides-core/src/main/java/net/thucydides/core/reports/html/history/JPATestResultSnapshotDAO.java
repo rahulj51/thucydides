@@ -27,8 +27,8 @@ public class JPATestResultSnapshotDAO implements TestResultSnapshotDAO {
     private final EnvironmentVariables environmentVariables;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JPATestResultSnapshotDAO.class);
-    private static final String FIND_ALL_TEST_RESULT_SNAPSHOTS = "select t from TestResultSnapshot t where t.projectKey = :projectKey order by t.time";
-    private static final String CLEAR_ALL_TEST_RESULT_SNAPSHOTS = "delete from TestResultSnapshot t where t.projectKey = :projectKey";
+    private static final String FIND_ALL_TEST_RESULT_SNAPSHOTS = "select t from net.thucydides.core.reports.html.history.TestResultSnapshot t where t.projectKey = :projectKey";
+    private static final String CLEAR_ALL_TEST_RESULT_SNAPSHOTS = "delete from net.thucydides.core.reports.html.history.TestResultSnapshot t where t.projectKey = :projectKey";
 
 
     @Inject
@@ -47,7 +47,10 @@ public class JPATestResultSnapshotDAO implements TestResultSnapshotDAO {
           entityManager.persist(testResultSnapshot);
           entityManager.getTransaction().commit();
       } catch (RuntimeException e) {
-          entityManager.getTransaction().rollback();
+          e.printStackTrace();
+          if (entityManager.getTransaction().isActive()) {
+            entityManager.getTransaction().rollback();
+          }
           throw e;
       } finally {
           entityManager.close();
@@ -77,7 +80,9 @@ public class JPATestResultSnapshotDAO implements TestResultSnapshotDAO {
                     .executeUpdate();
             entityManager.getTransaction().commit();
         }catch (RuntimeException e) {
-            entityManager.getTransaction().rollback();
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             throw e;
         } finally {
             entityManager.close();

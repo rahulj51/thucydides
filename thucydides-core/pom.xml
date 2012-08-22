@@ -264,7 +264,8 @@
                 <artifactId>maven-datanucleus-plugin</artifactId>
                 <version>3.1.0-release</version>
                 <configuration>
-                    <log4jConfiguration>${basedir}/log4j.properties</log4jConfiguration>
+                    <persistenceUnitName>db-manager-DataNucleus</persistenceUnitName>
+                    <api>JPA</api>
                     <verbose>true</verbose>
                 </configuration>
                 <executions>

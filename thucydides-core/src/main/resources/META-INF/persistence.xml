@@ -23,7 +23,7 @@
             <property name="eclipselink.jpql.parser" value="org.eclipse.persistence.queries.ANTLRQueryBuilder"/>
         </properties>
     </persistence-unit>
-    <persistence-unit name="db-manager-DataNucleus">
+    <persistence-unit name="db-manager-DataNucleus" transaction-type="RESOURCE_LOCAL">
         <provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider>
         <class>net.thucydides.core.statistics.model.TestRun</class>
         <class>net.thucydides.core.statistics.model.TestRunTag</class>

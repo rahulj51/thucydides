@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 import javax.persistence.*;
 
 @Entity
@@ -20,9 +21,11 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
     private Long id;
 
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @Column(columnDefinition = "TIMESTAMP", nullable=false)
+    //@Column(columnDefinition = "TIMESTAMP", nullable=false)
     @Converter(name = "dateTimeConverter", converterClass = net.thucydides.core.jpa.EclipselinkDateTimeConverter.class )
     @Convert("dateTimeConverter")
+    @Basic
+    @Persistent
     private DateTime time;
 
     private int specifiedSteps;
