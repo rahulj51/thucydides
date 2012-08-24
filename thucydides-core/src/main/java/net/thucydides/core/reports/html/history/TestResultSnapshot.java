@@ -12,7 +12,7 @@ import javax.jdo.annotations.Persistent;
 import javax.persistence.*;
 
 @Entity
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
 
     @Id
@@ -24,6 +24,7 @@ public class TestResultSnapshot implements Comparable<TestResultSnapshot> {
     //@Column(columnDefinition = "TIMESTAMP", nullable=false)
     @Converter(name = "dateTimeConverter", converterClass = net.thucydides.core.jpa.EclipselinkDateTimeConverter.class )
     @Convert("dateTimeConverter")
+    @javax.persistence.jpa21.Convert(converter = net.thucydides.core.jpa.StandardJPADateTimeConverter.class)
     @Basic
     @Persistent
     private DateTime time;

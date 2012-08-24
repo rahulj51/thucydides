@@ -10,9 +10,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity(name="TestRun")
 @Immutable
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class TestRun {
 
     @Id
