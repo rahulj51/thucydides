@@ -22,6 +22,7 @@ public class TestHistory {
 
     protected EnvironmentVariables environmentVariables;
     private TestResultSnapshotDAO testResultSnapshotDAO;
+    private TestHistoryImporter testHistoryImporter;
 
     public TestHistory() {
         this(Injectors.getInjector().getInstance(EnvironmentVariables.class),
@@ -32,6 +33,21 @@ public class TestHistory {
         this.environmentVariables = environmentVariables;
         this.testResultSnapshotDAO = testResultSnapshotDAO;
         this.projectKey = getProjectKey();
+        this.testHistoryImporter = new TestHistoryImporter();
+        init();
+    }
+
+    private void init() {
+        migrateHistoryFromFiles();
+    }
+
+    private void migrateHistoryFromFiles() {
+        String importHistory = ThucydidesSystemProperty.IMPORT_TEST_HISTORY_FROM_FILES.from(environmentVariables, "true");
+
+        if (Boolean.parseBoolean(importHistory)) {
+
+        }
+
     }
 
     public void updateData(TestOutcomes testOutcomes) {

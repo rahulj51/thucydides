@@ -1,5 +1,6 @@
 package net.thucydides.core.reports.html.history;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -13,6 +14,8 @@ public interface TestResultSnapshotDAO {
     void saveSnapshot(TestResultSnapshot testResultSnapshot);
 
     List<TestResultSnapshot> findAll();
+
+    List<Timestamp> findAllTimestamps();
 
     void clearAll();
 }

@@ -295,7 +295,15 @@ public enum ThucydidesSystemProperty {
      * This is the list of capability types to be used when reading capabilities from the file system
      * and when organizing the reports. It is a comma-separated list of tags.The default value is: capability, feature
      */
-    DATA_DIRECTORY("thucydides.data.dir");
+    DATA_DIRECTORY("thucydides.data.dir"),
+
+
+    /**
+     *  If set to true, test history data is imported from files to database.
+     *  Default is true. Useful in migrating test history data from older file based store to RDBMS.
+     *  Can be set to false if migrating history is not required.
+     */
+    IMPORT_TEST_HISTORY_FROM_FILES("thucydides.test.history.import");
 
     private String propertyName;
     public static final int DEFAULT_HEIGHT = 700;
