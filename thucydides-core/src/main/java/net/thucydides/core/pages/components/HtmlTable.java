@@ -121,13 +121,33 @@ public class HtmlTable {
         if (headings == null) {
             List<String> thHeadings = convert(headingElements(), toTextValues());
             if (thHeadings.isEmpty()) {
-                headings = convert(firstRowElements(), toTextValues());
+                headings = getHeadingsFromRowElements(firstRowElements()); //convert(firstRowElements(), toTextValues());  //what if first row has colspan
             } else {
                 headings = thHeadings;
             }
         }
         return headings;
     }
+
+    private List<String> getHeadingsFromRowElements(List<WebElement> rowElements) {
+
+        List<String> headings = new ArrayList<String>();
+        for(WebElement tdElement : rowElements) {
+            String colspanAttribute =   tdElement.getAttribute("colspan");
+            if ( colspanAttribute == null) {
+               headings.add(tdElement.getText());
+            } else {
+                for(int i = 1; i <= Integer.parseInt(colspanAttribute); i++) {
+                    headings.add(tdElement.getText() + "-" + i);
+                }
+            }
+
+        }
+
+        return headings;
+    }
+
+
 
     public List<WebElement> headingElements() {
         return tableElement.findElements(By.xpath(".//th"));
@@ -139,7 +159,7 @@ public class HtmlTable {
 
     public List<WebElement> getRowElementsFor(List<String> headings) {
         
-        List<WebElement> rowCandidates = tableElement.findElements(By.xpath(".//tr[td][count(td)>=" + headings.size() + "]"));
+        List<WebElement> rowCandidates = tableElement.findElements(By.xpath(".//tr[td]"));
         rowCandidates = stripHeaderRowIfPresent(rowCandidates, headings);
         return rowCandidates;
     }

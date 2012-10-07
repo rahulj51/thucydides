@@ -127,6 +127,15 @@ public class ReadingTableData extends FluentElementAPITestsBaseClass {
         assertThat(tableRows.get(2), allOf(hasEntry("First Name", "Bill"),hasEntry("Last Name", "Oddie"), hasEntry("Favorite Colour","Blue")));
     }
 
+
+    @Test
+    public void should_read_table_data_for_a_table_with_row_and_col_spans() {
+        List<Map<Object, String>> tableRows = HtmlTable.withColumns("First Name","Last Name", "Favorite Colour", "Role")
+                .readRowsFrom(page.clients_with_row_and_col_spans);
+
+        System.out.println(tableRows);
+    }
+
     @Test
     public void should_read_table_data_from_a_nested_table() {
         HtmlTable table = new HtmlTable(page.clients_with_nested_cells);
