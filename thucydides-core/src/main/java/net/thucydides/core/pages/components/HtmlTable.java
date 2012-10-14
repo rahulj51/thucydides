@@ -209,11 +209,13 @@ public class HtmlTable {
         int index = 0;
         for(WebElement row : rowElements) {
             List<WebElement> cells = cellsIn(row);
-            Map<Object, String> rowData = rowDataFrom(cells, headings);
-            if (matches(rowData, matchers)) {
-                indexes.add(index);
+            if (enoughCellsFor(headings).in(cells)) {
+                Map<Object, String> rowData = rowDataFrom(cells, headings);
+                if (matches(rowData, matchers)) {
+                    indexes.add(index);
+                }
+                index++;
             }
-            index++;
         }
 
         return indexes;
@@ -244,7 +246,21 @@ public class HtmlTable {
     }
 
     private List<WebElement> cellsIn(WebElement row) {
-        return row.findElements(By.xpath("./td"));
+        List<WebElement> tdElements = row.findElements(By.xpath("./td"));
+        List<WebElement> cells = new ArrayList<WebElement>();
+
+        for (WebElement tdElement : tdElements) {
+            String colspanAttribute =   tdElement.getAttribute("colspan");
+            if ( colspanAttribute == null) {
+                cells.add(tdElement);
+            } else {
+                for(int i = 1; i <= Integer.parseInt(colspanAttribute); i++) {
+                    cells.add(tdElement);
+                }
+            }
+        }
+
+        return cells;
     }
 
     private String cellValueAt(final int column, final List<WebElement> cells) {

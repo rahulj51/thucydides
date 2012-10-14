@@ -50,12 +50,12 @@ public class ReadingTableData extends FluentElementAPITestsBaseClass {
         HtmlTable table = new HtmlTable(page.clients);
 
         List<Map<Object, String>> tableRows = table.getRows();
-        assertThat(tableRows.size(), is(3));
+        assertThat(tableRows.size(), is(4));
 
-
-        assertThat(tableRows.get(0), allOf(hasEntry("First Name", "Tim"), hasEntry("Last Name", "Brooke-Taylor"), hasEntry("Favorite Colour", "Red")));
-        assertThat(tableRows.get(1), allOf(hasEntry("First Name", "Graeme"), hasEntry("Last Name", "Garden"), hasEntry("Favorite Colour", "Green")));
-        assertThat(tableRows.get(2), allOf(hasEntry("First Name", "Bill"),hasEntry("Last Name", "Oddie"), hasEntry("Favorite Colour","Blue")));
+        assertThat(tableRows.get(0), allOf(hasEntry("First Name", "SPACER"), hasEntry("Last Name", "SPACER"), hasEntry("Favorite Colour", "SPACER")));
+        assertThat(tableRows.get(1), allOf(hasEntry("First Name", "Tim"), hasEntry("Last Name", "Brooke-Taylor"), hasEntry("Favorite Colour", "Red")));
+        assertThat(tableRows.get(2), allOf(hasEntry("First Name", "Graeme"), hasEntry("Last Name", "Garden"), hasEntry("Favorite Colour", "Green")));
+        assertThat(tableRows.get(3), allOf(hasEntry("First Name", "Bill"),hasEntry("Last Name", "Oddie"), hasEntry("Favorite Colour","Blue")));
     }
 
 
@@ -64,7 +64,7 @@ public class ReadingTableData extends FluentElementAPITestsBaseClass {
         HtmlTable table = new HtmlTable(page.clients);
 
         List<WebElement> tableRows = table.getRowElements();
-        assertThat(tableRows.size(), is(3));
+        assertThat(tableRows.size(), is(4));
     }
 
     private org.hamcrest.Matcher<java.util.Map<Object, String>> hasEntry(Object key, String value) {
@@ -98,10 +98,11 @@ public class ReadingTableData extends FluentElementAPITestsBaseClass {
 
         List<Map<Object, String>> tableRows = table.getRows();
 
-        assertThat(tableRows.size(), is(3));
-        assertThat(tableRows.get(0), allOf(hasEntry(1, "Tim"), hasEntry(2, "Brooke-Taylor"), hasEntry(3, "Red")));
-        assertThat(tableRows.get(1), allOf(hasEntry(1, "Graeme"), hasEntry(2, "Garden"), hasEntry(3, "Green")));
-        assertThat(tableRows.get(2), allOf(hasEntry(1, "Bill"),hasEntry(2, "Oddie"), hasEntry(3,"Blue")));
+        assertThat(tableRows.size(), is(4));
+        assertThat(tableRows.get(0), allOf(hasEntry(1, "SPACER"), hasEntry(2, "SPACER"), hasEntry(3, "SPACER")));
+        assertThat(tableRows.get(1), allOf(hasEntry(1, "Tim"), hasEntry(2, "Brooke-Taylor"), hasEntry(3, "Red")));
+        assertThat(tableRows.get(2), allOf(hasEntry(1, "Graeme"), hasEntry(2, "Garden"), hasEntry(3, "Green")));
+        assertThat(tableRows.get(3), allOf(hasEntry(1, "Bill"),hasEntry(2, "Oddie"), hasEntry(3,"Blue")));
     }
 
     @Test
@@ -110,10 +111,11 @@ public class ReadingTableData extends FluentElementAPITestsBaseClass {
 
         List<Map<Object, String>> tableRows = HtmlTable.rowsFrom(page.clients);
 
-        assertThat(tableRows.size(), is(3));
-        assertThat(tableRows.get(0), allOf(hasEntry("First Name", "Tim"), hasEntry("Last Name", "Brooke-Taylor"), hasEntry("Favorite Colour", "Red")));
-        assertThat(tableRows.get(1), allOf(hasEntry("First Name", "Graeme"), hasEntry("Last Name", "Garden"), hasEntry("Favorite Colour", "Green")));
-        assertThat(tableRows.get(2), allOf(hasEntry("First Name", "Bill"),hasEntry("Last Name", "Oddie"), hasEntry("Favorite Colour","Blue")));
+        assertThat(tableRows.size(), is(4));
+        assertThat(tableRows.get(0), allOf(hasEntry(1, "SPACER"), hasEntry(2, "SPACER"), hasEntry(3, "SPACER")));
+        assertThat(tableRows.get(1), allOf(hasEntry(1, "Tim"), hasEntry(2, "Brooke-Taylor"), hasEntry(3, "Red")));
+        assertThat(tableRows.get(2), allOf(hasEntry(1, "Graeme"), hasEntry(2, "Garden"), hasEntry(3, "Green")));
+        assertThat(tableRows.get(3), allOf(hasEntry(1, "Bill"),hasEntry(2, "Oddie"), hasEntry(3,"Blue")));
     }
 
     @Test
@@ -130,10 +132,21 @@ public class ReadingTableData extends FluentElementAPITestsBaseClass {
 
     @Test
     public void should_read_table_data_for_a_table_with_row_and_col_spans() {
-        List<Map<Object, String>> tableRows = HtmlTable.withColumns("First Name","Last Name", "Favorite Colour", "Role")
+        List<Map<Object, String>> tableRows = HtmlTable.withColumns("First Name","Last Name", "Favorite fg Colour", "Favorite bg Colour", "Primary Role", "Secondary Role")
                 .readRowsFrom(page.clients_with_row_and_col_spans);
 
-        System.out.println(tableRows);
+        assertThat(tableRows.size(), is(2));
+        assertThat(tableRows.get(0), allOf(hasEntry("First Name", "Tim"), hasEntry("Last Name", "Brooke-Taylor"),
+                hasEntry("Favorite fg Colour", "Red"),
+                hasEntry("Favorite bg Colour", "Blue"),
+                hasEntry("Primary Role", "Admin"),
+                hasEntry("Secondary Role", "Admin")));
+        assertThat(tableRows.get(1), allOf(hasEntry("First Name", "Graeme"), hasEntry("Last Name", "Garden"),
+                hasEntry("Favorite fg Colour", "Green"),
+                hasEntry("Favorite bg Colour", "Green"),
+                hasEntry("Primary Role", "Ordinary"),
+                hasEntry("Secondary Role", "Admin")));
+
     }
 
     @Test
@@ -174,10 +187,12 @@ public class ReadingTableData extends FluentElementAPITestsBaseClass {
         HtmlTable table = new HtmlTable(page.table_with_merged_cells);
 
         List<Map<Object, String>> tableRows = table.getRows();
-        assertThat(tableRows.size(), is(3));
-        assertThat(tableRows.get(0), allOf(hasEntry("First Name", "Tim"),hasEntry("Last Name", "Brooke-Taylor"), hasEntry("Favorite Colour","Red")));
-        assertThat(tableRows.get(1), allOf(hasEntry("First Name", "Graeme"),hasEntry("Last Name", "Garden"), hasEntry("Favorite Colour","Green")));
-        assertThat(tableRows.get(2), allOf(hasEntry("First Name", "Bill"),hasEntry("Last Name", "Oddie"), hasEntry("Favorite Colour","Blue")));
+
+        assertThat(tableRows.size(), is(4));
+        assertThat(tableRows.get(0), allOf(hasEntry("First Name", " "),hasEntry("Last Name", " "), hasEntry("Favorite Colour"," ")));
+        assertThat(tableRows.get(1), allOf(hasEntry("First Name", "Tim"),hasEntry("Last Name", "Brooke-Taylor"), hasEntry("Favorite Colour","Red")));
+        assertThat(tableRows.get(2), allOf(hasEntry("First Name", "Graeme"),hasEntry("Last Name", "Garden"), hasEntry("Favorite Colour","Green")));
+        assertThat(tableRows.get(3), allOf(hasEntry("First Name", "Bill"),hasEntry("Last Name", "Oddie"), hasEntry("Favorite Colour","Blue")));
     }
 
     @Test
